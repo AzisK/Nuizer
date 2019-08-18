@@ -5,6 +5,7 @@ const pusher = new Pusher('19b1e741aaf272e825c7', {
   cluster: 'eu',
   useTLS: true,
   authEndpoint: 'http://localhost:5000/pusher/auth',
+  // authEndpoint: 'https://9cxn2e1lqj.execute-api.us-west-2.amazonaws.com/dev',
 });
 
 export default {
