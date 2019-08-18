@@ -3,17 +3,20 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 const Pusher = require('pusher');
+const crypto = require('crypto');
 
 require('dotenv').config();
 
-//initialize Pusher with your appId, key and secret
-const pusher = new Pusher({
-  appId: 'process.env.PUSHER_APP_ID',
-  key: 'process.env.PUSHER_KEY',
-  secret: 'process.env.PUSHER_SECRET',
+const pusherJson = {
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
   cluster: 'eu',
   useTLS: true
-});
+};
+
+//initialize Pusher with your appId, key and secret
+const pusher = new Pusher(pusherJson);
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -46,7 +49,8 @@ app.post('/pusher/auth', (req, res) => {
   // Generate a random string and use as presence channel user_id
   let presenceData = {
     user_id: crypto.randomBytes(16).toString('hex')
-  }
+  };
+
   let auth = pusher.authenticate(socketId, channel, presenceData);
   res.send(auth);
 });
